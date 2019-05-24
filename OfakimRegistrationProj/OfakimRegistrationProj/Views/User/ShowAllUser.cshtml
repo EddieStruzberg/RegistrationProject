@@ -24,7 +24,7 @@
         <th> Gender </th>
         <th></th>
     </tr>
-@foreach (var item in Model) {
+@if (Model != null ){foreach (var item in Model){
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Email)
@@ -42,5 +42,6 @@
             @Html.DisplayName(item.IsMale == true ? "Male" : "Female")
         </td>
     </tr>
+    }
 }
 </table>
