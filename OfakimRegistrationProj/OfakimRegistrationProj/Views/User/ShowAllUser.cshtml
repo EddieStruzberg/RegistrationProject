@@ -1,0 +1,46 @@
+﻿@model IEnumerable<OfakimRegistrationProj.Models.User>
+@{
+    ViewBag.Title = "ShowAllUser";
+}
+<h2>
+    <a href='@Url.Action("RegisterUser")'> <input id="RegisterUser" value="Register another User" class="btn btn-default" /> </a>
+</h2>
+<h2>All Users List</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.birthday)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </th>
+        <th> Gender </th>
+        <th></th>
+    </tr>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.birthday)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayName(item.IsMale == true ? "Male" : "Female")
+        </td>
+    </tr>
+}
+</table>

@@ -1,0 +1,21 @@
+    <script type = "text/javascript">
+        $(document).ready(function () {
+            $("#PutUser").click(function () {
+                $.ajax({
+                    url: '/User/PutUser',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { order: 'Client_Call' },
+                    success: function (data) { },
+                    error: function (data) { }
+                });
+            });
+        });
+    </script>
+	
+	<input type="button" id="PutUser" value="Get Data" />
+	 
+	public void PutUser(string order)
+    {
+        int b = 2;
+    }

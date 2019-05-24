@@ -1,0 +1,111 @@
+﻿@model OfakimRegistrationProj.Models.User
+
+@{
+    ViewBag.Title = "Register User";
+}
+
+<h2>Register User</h2>
+
+@using (Html.BeginForm("RegisterUser", "User", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" }>
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @id = "email"} })
+                @Html.ValidationMessageFor(model => model.Email, "Email is not valid", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.birthday, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.birthday, new { htmlAttributes = new { @class = "datepicker", @id = "TxtFrom" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control", @id = "FullName" } })
+                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @id = "PhoneNumber" } })
+                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Gender", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.IsMale, new SelectListItem[] { new SelectListItem() { Text = "Male", Value = "true", Selected = Model.IsMale }, new SelectListItem() { Text = "Female", Value = "false", Selected = !Model.IsMale } }, htmlAttributes: new { @class = "control-label col-md-2", @id = "Gender" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input  id="RegisterUser" type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        $(function () {
+            $("#TxtFrom").datepicker({
+                numberOFMonths: 1,
+                dateFormat: 'DD,d MM,yy',
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-150:+10",
+                onSelect: function (selectdate) {
+                    var dt = new Date(selectdate);
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+            $(document).ready(function () {
+                $("#RegisterUser").click(function () {
+
+                    var dataToSend = JSON.stringify({
+                        'Email': document.getElementById("email").value,
+                        'birthday': document.getElementById("TxtFrom").value,
+                        'FullName': document.getElementById("FullName").value,
+                        'PhoneNumber': document.getElementById("PhoneNumber").value,
+                        'IsMale': document.getElementById("Gender").value,
+                        "UserId": 0
+                    });
+                    $.ajax({
+                        url: '/User/PutUser',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { order: dataToSend },
+                        success: function (data) {
+                            if (data != "True")
+                                alert("Inserted Registration Input was incorrect, User wont be created");
+                        },
+                        error: function (data) { }
+                    });
+                });
+            });
+    </script>
+}
+
+
